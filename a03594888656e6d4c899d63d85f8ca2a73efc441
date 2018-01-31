@@ -1,0 +1,38 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "bc1cc763_b25c7269",
+        "filename": "fibo.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013405
+      },
+      "writtenOn": "2018-01-31T01:33:15Z",
+      "side": 1,
+      "message": "worales",
+      "revId": "a03594888656e6d4c899d63d85f8ca2a73efc441",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    },
+    {
+      "key": {
+        "uuid": "66e6d55d_34f762ab",
+        "filename": "fibo.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013405
+      },
+      "writtenOn": "2018-01-31T01:33:15Z",
+      "side": 1,
+      "message": "Ando aprendiendo gerrit .-.",
+      "revId": "a03594888656e6d4c899d63d85f8ca2a73efc441",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
