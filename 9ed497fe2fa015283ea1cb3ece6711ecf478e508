@@ -1,0 +1,21 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "d5d1b047_3cdaded4",
+        "filename": "elevaCuadrado.cpp",
+        "patchSetId": 1
+      },
+      "lineNbr": 9,
+      "author": {
+        "id": 1013404
+      },
+      "writtenOn": "2018-01-31T01:33:14Z",
+      "side": 1,
+      "message": "peda en casa de Juanjo",
+      "revId": "9ed497fe2fa015283ea1cb3ece6711ecf478e508",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": false
+    }
+  ]
+}
