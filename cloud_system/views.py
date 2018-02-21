@@ -4,4 +4,4 @@ from django.http import HttpResponse
 # Create your views here.
 
 def index(request):
-    return HttpResponse("Hello, world! This is the cloud system!!")
+    return render(request,'cloud_system/index.html',{})
