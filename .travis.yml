@@ -1,0 +1,9 @@
+language: python
+
+install:
+    - pip install mysql-connector-python 
+script:
+    - run_tests
+notifications:
+    email:
+        - jj.lopezjaimez@gmail.com
