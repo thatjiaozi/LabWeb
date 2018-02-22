@@ -4,7 +4,7 @@ from urllib.parse import urlparse
 import mysql.connector
 
 # Set the configuration to the connection of the database
-url = urlparse(os.environ['DATABASE_URL'])
+url = urlparse(os.environ['CLEARDB_DATABASE_URL'])
 hostname = url.hostname
 user = url.username
 password = url.password
