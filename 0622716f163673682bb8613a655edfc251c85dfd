@@ -1,0 +1,123 @@
+{
+  "comments": [
+    {
+      "key": {
+        "uuid": "722df870_4bca9f8a",
+        "filename": "/COMMIT_MSG",
+        "patchSetId": 1
+      },
+      "lineNbr": 7,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "Please rewrite this to be more descriptive and be in english",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "596b5fff_d8e438c5",
+        "filename": "db_create.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 0,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "Please write the file and variables in english",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "bcf5b58a_57e290ad",
+        "filename": "db_create.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "Please move this to be inside the  db_config_for_tests.py",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "216b577f_c959bcc1",
+        "filename": "db_create.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 8,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "As discussed offline, a product may have multiple categories",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "5d9bb5b8_bf06f9d4",
+        "filename": "db_create.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 21,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "Is this table and Empleados still required?",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "0b5798c0_d8b3d6d3",
+        "filename": "db_insert_dummy.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "Please move this to be inside the db_config_for_tests.py",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    },
+    {
+      "key": {
+        "uuid": "d3bfea32_97f08d43",
+        "filename": "db_queries_dummy.sql",
+        "patchSetId": 1
+      },
+      "lineNbr": 1,
+      "author": {
+        "id": 1013394
+      },
+      "writtenOn": "2018-02-23T04:57:53Z",
+      "side": 1,
+      "message": "As discussed offline, these queries should be part of a class in python that access the database in order to retrieve the data and pass it to django.\n\nPlease create a new class that sets up a connection to the database and implement each query in a method of the class.",
+      "revId": "0622716f163673682bb8613a655edfc251c85dfd",
+      "serverId": "d5d70762-12d0-45a1-890d-524b12d3f735",
+      "unresolved": true
+    }
+  ]
+}
