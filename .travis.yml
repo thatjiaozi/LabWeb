@@ -1,9 +1,14 @@
 language: python
+python:
+    - "3.6"
 
 install:
     - pip install mysql-connector-python 
 script:
-    - run_tests
+    - python ./cloud/run_tests.py
 notifications:
     email:
         - jj.lopezjaimez@gmail.com
+        - delafuentegarza@gmail.com
+        - j.limon.cabrera@gmail.com
+        - A01175920@itesm.mx
