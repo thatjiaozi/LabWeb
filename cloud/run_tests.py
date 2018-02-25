@@ -1,5 +1,6 @@
 import sys
-sys.path.append('./tests')
+sys.path.append('./cloud')
+sys.path.append('./cloud/tests')
 
 import unittest
 
