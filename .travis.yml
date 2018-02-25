@@ -5,7 +5,7 @@ python:
 install:
     - pip install mysql-connector-python 
 script:
-    - python run_tests.py
+    - python ./cloud/run_tests.py
 notifications:
     email:
         - jj.lopezjaimez@gmail.com
