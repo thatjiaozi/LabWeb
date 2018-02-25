@@ -3,7 +3,7 @@ language: python
 install:
     - pip install mysql-connector-python 
 script:
-    - run_tests
+    - python run_tests.py
 notifications:
     email:
         - jj.lopezjaimez@gmail.com
