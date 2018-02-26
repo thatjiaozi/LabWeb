@@ -1,45 +1,60 @@
-CREATE DATABASE ProyectoWeb;
-USE ProyectoWeb;
+DROP DATABASE Larin;
+CREATE DATABASE Larin;
+USE Larin;
 
-CREATE TABLE Productos(
-	IDProducto VARCHAR(40) NOT NULL,
-	Nombre VARCHAR(40) NOT NULL,
-	Descripcion VARCHAR(40) NOT NULL,
-	Categoria VARCHAR(40) NOT NULL,
-	CantidadExistencia INT NOT NULL,
-	Precio FLOAT(10, 2) NOT NULL,
-	PRIMARY KEY (IDProducto)
+CREATE TABLE Products(
+	IDProduct INT NOT NULL,
+	ProductName VARCHAR(40) NOT NULL,
+	Description VARCHAR(40) NOT NULL,
+	Price FLOAT(10, 2) NOT NULL,
+	Quantity INT NOT NULL,
+	PRIMARY KEY (IDProduct)
 );
 
-CREATE TABLE Ventas(
-	IDVenta VARCHAR(40) NOT NULL,
-	PagoTotal FLOAT(10, 2) NOT NULL,
-	Fecha DATE NOT NULL,
-	PRIMARY KEY (IDVenta)
+CREATE TABLE Categories(
+	IDCategory INT NOT NULL,
+	CategoryName VARCHAR(40) NOT NULL,
+	PRIMARY KEY(IDCategory)
 );
 
-CREATE TABLE Administradores(
-	IDAdministrador VARCHAR(40) NOT NULL,
-	NombreCompleto VARCHAR(40) NOT NULL,
+CREATE TABLE Sales(
+	IDSale INT NOT NULL,
+	TotalPayment FLOAT(10, 2) NOT NULL,
+	SaleDate DATE NOT NULL,
+	PRIMARY KEY (IDSale)
+);
+
+CREATE TABLE Administrators(
+	IDAdmin INT NOT NULL,
+	Name VARCHAR(40) NOT NULL,
 	PasswordHash VARCHAR(40) NOT NULL,
-	PRIMARY KEY(IDAdministrador)
+	PRIMARY KEY(IDAdmin)
 );
 
-CREATE TABLE Empleados(
-	IDEmpleado VARCHAR(40) NOT NULL,
-	IDAdministrador VARCHAR(40) NOT NULL,
-	NombreCompleto VARCHAR(40) NOT NULL,
+CREATE TABLE Employees(
+	IDEmployee INT NOT NULL,
+	IDAdmin INT NOT NULL,
+	Name VARCHAR(40) NOT NULL,
 	PasswordHash VARCHAR(40) NOT NULL,
-	PRIMARY KEY(IDEmpleado),
-	FOREIGN KEY(IDAdministrador) REFERENCES Administradores(IDAdministrador)
+	PRIMARY KEY(IDEmployee),
+	FOREIGN KEY(IDAdmin) REFERENCES Administrators(IDAdmin)
 );
 
-CREATE TABLE VentaProductos(
+CREATE TABLE Products_Categories(
 	IDAuto INT NOT NULL AUTO_INCREMENT NOT NULL,
-	IDProducto VARCHAR(40) NOT NULL,
-	IDVenta VARCHAR(40) NOT NULL,
-	Cantidad INT NOT NULL,
+	IDProduct INT NOT NULL,
+	IDCategory INT NOT NULL,
 	PRIMARY KEY(IDAuto),
-	FOREIGN KEY(IDProducto) REFERENCES Productos(IDProducto),
-	FOREIGN KEY(IDVenta) REFERENCES Ventas(IDVenta)
+	FOREIGN KEY(IDProduct) REFERENCES Products(IDProduct),
+	FOREIGN KEY(IDCategory) REFERENCES Categories(IDCategory)
+);
+
+CREATE TABLE Sales_Products(
+	IDAuto INT NOT NULL AUTO_INCREMENT NOT NULL,
+	IDSale INT NOT NULL,
+	IDProduct INT NOT NULL,
+	Quantity INT NOT NULL,
+	PRIMARY KEY(IDAuto),
+	FOREIGN KEY(IDSale) REFERENCES Sales(IDSale),
+	FOREIGN KEY(IDProduct) REFERENCES Products(IDProduct)
 );

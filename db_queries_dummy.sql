@@ -1,35 +1,42 @@
--- SELECT Generales para mostrar informacion de tablas
+-- Check the content of tables
+SELECT * FROM Products;
+SELECT * FROM Categories;
+SELECT * FROM Sales;
+SELECT * FROM Products_Categories;
+SELECT * FROM Sales_Products;
+SELECT * FROM Administrators;
+SELECT * FROM Employees;
 
-SELECT * FROM Productos;
+/*  FILTER QUERIES 
+	These queries obtain details about products (name, description, etc)
+	based on certain filter criteria */
 
-SELECT * FROM Ventas;
+-- Obtain name of all existent products
+SELECT ProductName 
+FROM Products;
 
-SELECT * FROM Administradores;
+-- Obtain description of a specific product given an ID
+SELECT Description 
+FROM Products
+WHERE Products.IDProduct = 1;
 
-SELECT * FROM Empleados;
+-- Obtain names of products that comply certain categories criteria
+SELECT P.ProductName
+FROM Products P, Categories C, Products_Categories CP
+WHERE P.IDProduct = CP.IDProduct
+AND C.IDCategory = CP.IDCategory
+AND C.CategoryName IN ("Juguetes", "Hogar")
+GROUP BY P.ProductName
+HAVING COUNT(CP.IDCategory) >= 2; 
 
-SELECT * FROM VentaProductos;
+-- Obtains names of products which are in a range of price
+SELECT ProductName
+FROM Products
+WHERE Products.Price
+BETWEEN 0 AND 500;
 
--- Query para obtener detalles de un Producto
-
-SELECT Descripcion 
-FROM Productos
-WHERE Productos.IDProducto = '1';
-
--- Queries para obtener nombres de todos los productos de acuerdo ciertos filtros
-
--- Por categoria
-SELECT Nombre
-FROM Productos
-WHERE Productos.Categoria IN ('Cocina');
-
--- Por rango de precio
-SELECT Nombre
-FROM Productos
-WHERE Productos.Precio 
-BETWEEN 50 AND 250;
-
--- Por cantidad de existencia
-SELECT Nombre
-FROM Productos
-WHERE Productos.CantidadExistencia >= 10;
+-- Obtains names of products which are in a range of quantity
+SELECT ProductName 
+FROM Products
+WHERE Products.Quantity 
+BETWEEN 0 AND 100;

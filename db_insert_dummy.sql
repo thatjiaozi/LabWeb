@@ -1,24 +1,58 @@
-USE ProyectoWeb;
+-- -------------------------------------------------------------------------------
+/* 	PRODUCTS 
+	INSERT INTO Products(IDProduct, ProductName, Description, Price, Quantity) */
+INSERT INTO Products VALUES(1, "Paquete vasos", "Paquete de 5 vasos de hielo seco", 50, 100);
+INSERT INTO Products VALUES(2, "Tupper", "Tupper de plástico", 100, 30);
+INSERT INTO Products VALUES(3, "Tina", "Tina infantil de 90 cm x 60 cm", 450, 10);
+-- -------------------------------------------------------------------------------
 
--- Productos
-INSERT INTO Productos(IDProducto, Nombre, Descripcion, Categoria, CantidadExistencia, Precio) 
-VALUES (1, "Tupper", "Es un tupper chido", "Cocina", 10, 100);
+-- -------------------------------------------------------------------------------
+/* 	CATEGORIES 
+	INSERT INTO Categories(IDCategory, CategoryName) */
+INSERT INTO Categories VALUES(1, "Cocina");
+INSERT INTO Categories VALUES(2, "Juguetes");
+INSERT INTO Categories VALUES(3, "Hogar");
+INSERT INTO Categories VALUES(4, "Artículos escolares");
+-- -------------------------------------------------------------------------------
 
-INSERT INTO Productos(IDProducto, Nombre, Descripcion, Categoria, CantidadExistencia, Precio) 
-VALUES (2, "Plato", "Es un plato chido", "Cocina", 5, 50);
+-- -------------------------------------------------------------------------------
+/* 	SALES 
+	INSERT INTO Sales(IDSale, TotalPayment, SaleDate) */
+INSERT INTO Sales VALUES(1, 100, '2018-02-21'); 
+INSERT INTO Sales VALUES(2, 200, '2018-02-23');
+INSERT INTO Sales VALUES(3, 600, '2018-02-25');
+-- -------------------------------------------------------------------------------
 
--- Ventas
-INSERT INTO Ventas(IDVenta, PagoTotal, Fecha) 
-VALUES(100, 200, '2018-02-21'); 
+-- -------------------------------------------------------------------------------
+/* 	PRODUCTS_CATEGORIES 
+	INSERT INTO Products_Categories(IDAuto, IDProduct, IDCategory)*/
+INSERT INTO Products_Categories VALUES(DEFAULT, 1, 1);
+INSERT INTO Products_Categories VALUES(DEFAULT, 2, 1);
+INSERT INTO Products_Categories VALUES(DEFAULT, 2, 2);
+INSERT INTO Products_Categories VALUES(DEFAULT, 3, 2);
+INSERT INTO Products_Categories VALUES(DEFAULT, 3, 3);
+-- -------------------------------------------------------------------------------
 
--- Administradores
-INSERT INTO Administradores(IDAdministrador, NombreCompleto, PasswordHash) 
-VALUES(1000, "Jefferson Gutierritos", "Password"); 
+-- -------------------------------------------------------------------------------
+/* 	SALES_PRODUCTS 
+	INSERT INTO Sales_Products(IDAuto, IDSale, IDProduct, Quantity) */
+INSERT INTO Sales_Products VALUES(DEFAULT, 1, 1, 2);
+INSERT INTO Sales_Products VALUES(DEFAULT, 2, 2, 2);
+INSERT INTO Sales_Products VALUES(DEFAULT, 3, 1, 1);
+INSERT INTO Sales_Products VALUES(DEFAULT, 3, 2, 1);
+INSERT INTO Sales_Products VALUES(DEFAULT, 3, 3, 1);
+-- -------------------------------------------------------------------------------
 
--- Empleados
-INSERT INTO Empleados(IDEmpleado, IDAdministrador, NombreCompleto, PasswordHash) 
-VALUES(200, 1000, "Carlos Santana", "Password");
+---------------------------------------------------------------------------------
+/* 	ADMINISTRATORS 
+	INSERT INTO Administrators(IDAdmin, Name, PasswordHash) */
+INSERT INTO Administrators VALUES(1, "Jefferson Gutierritos", "lala");
+INSERT INTO Administrators VALUES(2, "Watts Humphrey", "PSP"); 
+-- -------------------------------------------------------------------------------
 
--- VentaProductos
-INSERT INTO VentaProductos(IDProducto, IDVenta, Cantidad) 
-VALUES(001, 100, 2);
+-- -------------------------------------------------------------------------------
+/* 	EMPLOYEES 
+	INSERT INTO Employees(IDEmployee, IDAdmin, Name, PasswordHash) */
+INSERT INTO Employees VALUES(1, 1, "Carlos Santana", "lolo");
+INSERT INTO Employees VALUES(2, 2, "Pepe el Toro", "123");
+-- -------------------------------------------------------------------------------
