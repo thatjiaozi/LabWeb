@@ -1,0 +1,60 @@
+DROP DATABASE Larin;
+CREATE DATABASE Larin;
+USE Larin;
+
+CREATE TABLE Products(
+	IDProduct INT NOT NULL,
+	ProductName VARCHAR(40) NOT NULL,
+	Description VARCHAR(40) NOT NULL,
+	Price FLOAT(10, 2) NOT NULL,
+	Quantity INT NOT NULL,
+	PRIMARY KEY (IDProduct)
+);
+
+CREATE TABLE Categories(
+	IDCategory INT NOT NULL,
+	CategoryName VARCHAR(40) NOT NULL,
+	PRIMARY KEY(IDCategory)
+);
+
+CREATE TABLE Sales(
+	IDSale INT NOT NULL,
+	TotalPayment FLOAT(10, 2) NOT NULL,
+	SaleDate DATE NOT NULL,
+	PRIMARY KEY (IDSale)
+);
+
+CREATE TABLE Administrators(
+	IDAdmin INT NOT NULL,
+	Name VARCHAR(40) NOT NULL,
+	PasswordHash VARCHAR(40) NOT NULL,
+	PRIMARY KEY(IDAdmin)
+);
+
+CREATE TABLE Employees(
+	IDEmployee INT NOT NULL,
+	IDAdmin INT NOT NULL,
+	Name VARCHAR(40) NOT NULL,
+	PasswordHash VARCHAR(40) NOT NULL,
+	PRIMARY KEY(IDEmployee),
+	FOREIGN KEY(IDAdmin) REFERENCES Administrators(IDAdmin)
+);
+
+CREATE TABLE Products_Categories(
+	IDAuto INT NOT NULL AUTO_INCREMENT NOT NULL,
+	IDProduct INT NOT NULL,
+	IDCategory INT NOT NULL,
+	PRIMARY KEY(IDAuto),
+	FOREIGN KEY(IDProduct) REFERENCES Products(IDProduct),
+	FOREIGN KEY(IDCategory) REFERENCES Categories(IDCategory)
+);
+
+CREATE TABLE Sales_Products(
+	IDAuto INT NOT NULL AUTO_INCREMENT NOT NULL,
+	IDSale INT NOT NULL,
+	IDProduct INT NOT NULL,
+	Quantity INT NOT NULL,
+	PRIMARY KEY(IDAuto),
+	FOREIGN KEY(IDSale) REFERENCES Sales(IDSale),
+	FOREIGN KEY(IDProduct) REFERENCES Products(IDProduct)
+);
