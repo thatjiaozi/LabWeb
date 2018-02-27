@@ -18,7 +18,7 @@
         <!-- NavBar -->
     	<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
     		<div class="container-fluid">
-	    		<a class="navbar-brand align-self-center" href="#">
+	    		<a class="navbar-brand align-self-center" href="{% url 'company' %}">
 			    	<img src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" width="35" height="35" class="d-inline-block" alt="">
 			    	<span class="brandText">Comercial Valmir</span>
 			  	</a>
@@ -27,9 +27,9 @@
 	      		</button>
 	      		<div class="collapse navbar-collapse justify-content-end " id="navbarNavAltMarkup">
 	        		<div class="navbar-nav">
-	          			<a class="nav-item nav-link mx-3" href="#">Sobre nosotros</a>
-	          			<a class="nav-item nav-link mx-3" href="#">Contacto</a>
-	          			<a class="nav-item nav-link mx-3" href="#">Catálogo</a>
+	          			<a class="nav-item nav-link mx-3" href="{% url 'company' %}#about">Sobre nosotros</a>
+	          			<a class="nav-item nav-link mx-3" href="{% url 'company' %}#contact">Contacto</a>
+	          			<a class="nav-item nav-link mx-3" href="{% url 'catalog' %}">Catálogo</a>
 	        		</div>
 	      		</div>
       		</div>
