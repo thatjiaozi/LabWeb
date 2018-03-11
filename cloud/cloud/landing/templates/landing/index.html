@@ -1,13 +1,13 @@
+{% load staticfiles %}
 <!DOCTYPE html>
 <html lang="es">
     <head>
-        <title>Comercial Valmir</title>
+        <title>{% block title %}Comercial Valmir{% endblock %}</title>
         <meta charset="UTF-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
-        {% load staticfiles %} 
-        <link rel="stylesheet" type="text/css" href="{% static 'cloud_system/css/navbar.css' %}" />
-        <script src="https://maps.googleapis.com/maps/api/js?callback=myMap"></script> 
+
+        <link rel="stylesheet" href="{% static 'css/landing.css' %}">
     </head>
     <body>
 
@@ -15,128 +15,71 @@
             <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault" aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
-            <a class="navbar-brand" href="#">Comercial Valmir</a>
-        
+            <a class="navbar-brand" href="{% url 'company' %}">Comercial Valmir</a>
+
             <div class="collapse navbar-collapse" id="navbarsExampleDefault">
                 <ul class="navbar-nav ml-auto ">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#">Inicio<span class="sr-only">(current)</span></a>
-                    </li>
                     <li class="nav-item">
-                        <a href="#products" class="nav-link">Catálogo</a>
-                    </li>
-                    <li class="nav-item">
-                            <a href="#about" class="nav-link">Acerca de</a>
+                            <a href="#about" class="nav-link">Sobre nosotros</a>
                     </li>
                     <li class="nav-item">
                         <a href="#contact" class="nav-link">Contacto</a>
                     </li>
-                </ul>   
+                    <li class="nav-item">
+                        <a href="{% url 'catalog' %}" class="nav-link">Catálogo</a>
+                    </li>
+                </ul>
              </div>
      </nav>
-        
-         <!-- Header -->
-        <section class="jumbotron text-center">
-            <div class="container">
-                <h1 class="jumbotron-heading">Bienvenidos a nuestra página web</h1>
-                <p class="lead text-muted">Ahora puede consultar en línea nuestros productos disponibles en tienda, donde podrá encontrar:</p>
-                <ul class="fa-ul">
-                        <li><i class="fa-li fa fa-check-square lead text-muted"></i>Artículos de Hogar</li>
-                        <li><i class="fa-li fa fa-check-square lead text-muted"></i>Útiles Escolares</li>
-                        <li><i class="fa-li fa fa-check-square lead text-muted"></i>Fiestas Infantiles</li>
-                        <li><i class="fa-li fa fa-check-square lead text-muted"></i>Artículos de cocina</li>
-                </ul>     
-                <p>
-            </div>
-        </section>
 
-          <!--Catalogo-->
-        <section class="mb-0" id="products">
-            <div class="container">
-                <h3 class="display-4 align-content-center">Catálogo de Productos</h3>
-                    <div class="card-deck">
-                        <div class="card">
-                            <img class="card-img-top img-thumbnail" src="https://images-na.ssl-images-amazon.com/images/I/819Ud8HmkyL._SL1500_.jpg"  alt="Card image cap">
-                            <div class="card-block">
-                            <h4 class="card-title">Card title</h4>
-                            <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content. </p>
-                            <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top img-thumbnail" src="https://images-na.ssl-images-amazon.com/images/I/819Ud8HmkyL._SL1500_.jpg"  alt="Card image cap">
-                            <div class="card-block">
-                                <h4 class="card-title">Card title</h4>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                        <div class="card">
-                            <img class="card-img-top img-thumbnail" src="https://images-na.ssl-images-amazon.com/images/I/819Ud8HmkyL._SL1500_.jpg"  alt="Card image cap">
-                            <div class="card-block">
-                                <h4 class="card-title">Card title</h4>
-                                <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                                <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                            </div>
-                        </div>
-                        <div class="card">
-                                <img class="card-img-top img-thumbnail" src="https://images-na.ssl-images-amazon.com/images/I/819Ud8HmkyL._SL1500_.jpg"  alt="Card image cap">
-                                <div class="card-block">
-                                    <h4 class="card-title">Card title</h4>
-                                    <p class="card-text">This is a longer card with supporting text below as a natural lead-in to additional content.</p>
-                                    <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-                                </div>
-                            </div>
-                    </div>
-            </div>
-            <hr>
-        </section>
+    <!-- Header -->
+    <div class="container bg-overlay">
+    <div class="row text-center">
+        <div class="container">
+            <h1 class="jumbotron-heading">Bienvenidos a nuestra página web</h1>
+            <p class="lead text-light">Ahora puede consultar en línea nuestros productos disponibles en tienda, donde podrá encontrar:</p>
+            <p class="lead text-light">Artículos de Hogar</p>
+            <p class="lead text-light">Fiestas Infantiles</p>
+            <p class="lead text-light">Artículos de cocina</p>
+            <p class="lead text-light">Artículos escolares</p>   
+            </br>
+            <button type="button" class="btn btn-primary btn-lg align-content-center">Ver productos</button>
+        </div>
+    </div>
+    </div>
         
-
-         <!-- Acerca de -->
-        <section class="mb-0 bg-faded" id="about">
-            <div class="container">
-                <h3 class="display-4 align-content-center">Acerca de</h3>
-                <div class="row">
-                <div class="col-lg-4 ml-auto">
-                    <p class="lead">Comercializadora de plásticos para el hogar en mayoreo y menudeo</p>
-                </div>
-                <div class="col-lg-4 mr-auto">
-                    <p class="lead"></p>
-                </div>
-                </div>
-                <div class="text-center mt-4">
-                <a class="btn btn-xl btn-outline-light" href="#products">
-                    <i class="fa fa-download mr-2"></i>
-                    Ver productos
-                </a>
-                </div>
+     <!-- Acerca de -->
+    <section class="mb-0 bg-faded" id="about">
+        <div class="container">
+            <div class="row">
+            <h3 class="display-4 align-content-center mt-5">Acerca de</h3>
+            <div class="col-lg-4 ml-auto mt-5">
+                <p class="lead">Comercializadora de plásticos para el hogar en mayoreo y menudeo</p>
+                <p class="lead">Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor. Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. </p>
             </div>
-        </section>
+            <div class="col-lg-4 mr-auto mt-5">
+                <p class="lead">Donec quam felis, ultricies nec, pellentesque eu, pretium quis, sem. Nulla consequat massa quis enim. Donec pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo. Nullam dictum felis eu pede mollis pretium. Integer tincidunt. Cras dapibus. Vivamus elementum semper nisi. Aenean vulputate eleifend tellus. Aenean leo ligula, porttitor eu, consequat vitae, eleifend ac, enim. Aliquam lorem ante, dapibus in, viverra quis, feugiat a, tellus</p>
+            </div>
+            </div>
+        </div>
+    </section>
     
         <!--Contacto -->
         <section class="mb-0" id="contact">
                 <div class="container">
-                    <h3 class="display-4 align-content-center">Contacto</h3>
-                    <div class="row">
-                        <div class="col-lg-4 mr-auto">Para más información puedes contactarnos en:</p>
-                        <div class="mr-auto">
+                    <div class="row mt-5">
+                        <h3 class="display-4 align-content-center">Contacto</h3>
+                        <div class="col-lg-5">
+                                <p class="lead">Para más información puedes contactarnos en:</p>
                                 <p class="lead small">Horarios de lunes a domingo de 10 am a 7 pm</p>
                                 <p class="lead small">Telefono: 83439964</p>
                                 <p class="lead small">Dirección: Garibaldi 440 sur local 9 Y 10</p>
                                 <p class="lead small">Correo: jaime@valdez.com</p>
                         </div>
-                        </div>
-                        <div id="map ml-auto" style="width:250px;height:250px">My map will go here</div>
                     </div>
                 </div>
             </section>
         
-            
-           
-                    
-
-        <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBu-916DdpKAjTmJNIgngS6HL_kDIKU0aU&callback=myMap"></script>
         <script src="https://code.jquery.com/jquery-3.1.1.slim.min.js" integrity="sha384-A7FZj7v+d/sdmMqp/nOQwliLvUsJfDHW+k9Omg/a/EheAdgtzNs3hpfag6Ed950n" crossorigin="anonymous"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/tether/1.4.0/js/tether.min.js" integrity="sha384-DztdAPBWPRXSA/3eYEEUWrWCy7G5KFbe8fFjk5JAIxUYHKkDx6Qin1DkWx51bBrb" crossorigin="anonymous"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js" integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn" crossorigin="anonymous"></script>

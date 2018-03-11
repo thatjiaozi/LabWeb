@@ -1,0 +1,85 @@
+{% extends "catalog/base.html" %}
+
+{% block content %}
+<!-- Main container -->
+<div class="container-fluid">
+	    	<div class="row">
+
+	    		<!-- Side bar -->
+	    		<div class="col-12 col-lg-auto bg-info sideBarLeft subtleShadow pt-3">
+	    			<div class="row mb-2 mb-lg-4">
+	    				<div class="col text-center">
+	    					<p class="filterTitle mb-1">Categoria</p>
+							{% for category in all_categories %}
+	    					<div class="custom-control custom-checkbox text-center">
+							  	<input type="checkbox" class="custom-control-input" name="category" id="{{category.CategoryName}}">
+							  	<label class="custom-control-label" for="{{category.CategoryName}}">{{category.CategoryName}}</label>
+							</div>
+							{% endfor %}
+	    				</div>
+	    			</div>
+
+	    			<div class="row mb-2 mb-lg-4">
+	    				<div class="col text-center">
+	    					<p class="filterTitle mb-1">Precio</p>
+	    					<div class="row mb-2">
+	    						<div class="col-auto">
+	    							$
+	    						</div>
+	    						<div class="col slidecontainer">
+	    							<input type="range" min="1" max="100" value="50" class="slider" id="priceFilter">
+	    						</div>
+	    						<div class="col-auto">
+	    							$$$
+	    						</div>
+	    					</div>
+
+	    					<div class="row">
+	    						<div class="col mx-5">
+					        		<div class="priceLabel">Desde: $<span id="priceLabel">3</span></div>
+					        	</div>
+					        </div>
+	    				</div>
+	    			</div>
+	    		</div>
+
+	    		<!-- Search and content -->
+	    		<div class="col-12 col-lg bg-light">
+	    			<!-- Search -->
+	    			<div class="row">
+	    				<div class="col p-0">
+	    					<form>
+							  	<div class="form-row align-items-center px-0 mx-0">
+							    	<div class="col px-0 mx-0">
+							      		<label class="sr-only " for="inlineFormInput">Nombre del producto... </label>
+							      		<input type="text" class="form-control m-0 py-2 mediumText perfRectangle" id="inlineFormInput" placeholder="Nombre del producto...">
+							    	</div>
+							    	<div class="col-auto px-0">
+							      		<button type="submit" class="btn btn-primary m-0 px-5 py-2 mediumText perfRectangle">Buscar</button>
+							    	</div>
+							  	</div>
+							</form>
+	    				</div>
+	    			</div>
+
+	    			<!-- Content -->
+	    			<div class="row px-1 fullVSize subtleShadow">
+
+						{% for product in all_products %}
+	    				<div class="col py-4">
+	    					<div class="card prodItem subtleShadow" style="width: 18rem;">
+							  	<img class="card-img-top subtleShadow" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="{{product.ProductName}} image cap">
+							  	<div class="card-body">
+							    	<h5 class="card-title">{{product.ProductName}}</h5>
+							    	<p class="card-text">{{product.Description}}</p>
+							    	<a href="#" class="btn btn-info">Ver detalle</a>
+							  	</div>
+							</div>
+	    				</div>
+						{% endfor %}
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+</div>
+{% endblock content %}
