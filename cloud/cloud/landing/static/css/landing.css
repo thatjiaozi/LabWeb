@@ -1,0 +1,35 @@
+#mainNav{
+	background-color:#1C99D8  !important;
+}
+
+#main{
+	height: 500px !important;
+	padding-top: 3% !important;
+	color: #124F6E;
+}
+
+#mainImg{
+	width: 100%;
+    height: 200%;
+    background-size: cover;
+    overflow: hidden;
+    position:absolute;
+    top:0;
+    left:0;
+    z-index:1;
+    margin-bottom: 0px;
+    opacity: 0.2;
+    color: #fff;
+    background: #000 
+}
+
+.bg-overlay {
+    background: linear-gradient(rgba(0,0,0,.7), rgba(0,0,0,.7)), url("https://yainis.com/wp-content/uploads/2017/05/cerro-de-la-silla-7.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center center;
+    color: #fff;
+    width: 100%;
+    height: 650px;
+    padding-top: 50px;
+}
