@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+  	<head>
+    	<!-- Required meta tags -->
+    	<meta charset="utf-8">
+    	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    	<!-- Bootstrap CSS -->
+    	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/css/bootstrap-slider.min.css">
+        <link rel="stylesheet" href="css/empleados.css">
+    	<title>Administracion | Comercial Valmir</title>
+  	</head>
+    <body>
+        <!-- NavBar -->
+    	<nav class="navbar navbar-expand-lg navbar-dark bg-dark justify-content-between fixed-top">
+    		<div class="container-fluid">
+	    		<a class="navbar-brand align-self-center" href="{% url 'company' %}">
+			    	<img src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" width="35" height="35" class="d-inline-block" alt="">
+			    	<span class="brandText">Comercial Valmir</span>
+			  	</a>
+	      		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+	    			<span class="navbar-toggler-icon"></span>
+	      		</button>
+	      		<div class="collapse navbar-collapse justify-content-end " id="navbarNavAltMarkup">
+	        		<div class="navbar-nav">
+	          			<a class="nav-item nav-link mx-3" href="{% url 'company' %}#about">Reportes</a>
+	          			<a class="nav-item nav-link mx-3" href="{% url 'company' %}#contact">Productos</a>
+	          			<a class="nav-item nav-link mx-3 active" href="{% url 'catalog' %}">Empleados</a>
+	        		</div>
+	      		</div>
+      		</div>
+    	</nav>
+    	<!-- Fin NavBar -->
+
+    	<!-- Main container -->
+		<div class="container-fluid">
+	    	<div class="row">
+
+	    		<!-- Side bar -->
+	    		<div class="col-12 col-md-2 bg-info sideBarLeft subtleShadow pt-3">
+	    			<div class="row mb-2 mb-lg-4">
+	    				<div class="col">
+	    					<p class="filterTitle mb-1 text-center">Tipo</p>
+	    					<div class="custom-control custom-checkbox">
+							  	<input type="checkbox" class="custom-control-input" name="category" id="filtroTipo">
+							  	<label class="custom-control-label" for="filtroTipo">Tipo</label>
+							</div>
+	    				</div>
+	    			</div>
+	    		</div>
+
+	    		<!-- Search and content -->
+	    		<div class="col-12 col-md bg-light">
+	    			<!-- Search -->
+	    			<div class="row">
+	    				<div class="col p-0">
+	    					<form>
+							  	<div class="form-row align-items-center px-0 mx-0">
+							    	<div class="col px-0 mx-0">
+							      		<label class="sr-only " for="inlineFormInput">Nombre del empleado... </label>
+							      		<input type="text" class="form-control m-0 py-2 mediumText perfRectangle" id="inlineFormInput" placeholder="Nombre del empleado...">
+							    	</div>
+							    	<div class="col-auto px-0">
+							      		<button type="submit" class="btn btn-primary m-0 px-5 py-2 mediumText perfRectangle">Buscar</button>
+							    	</div>
+							  	</div>
+							</form>
+	    				</div>
+	    			</div>
+
+	    			<!-- Content -->
+	    			<div class="row px-1 fullVSize subtleShadow">
+
+						{% for product in all_products %}
+	    				<div class="col py-4">
+	    					<div class="card prodItem subtleShadow" style="width: 18rem;">
+							  	<img class="card-img-top subtleShadow" src="https://getbootstrap.com/assets/brand/bootstrap-solid.svg" alt="{{product.ProductName}} image cap">
+							  	<div class="card-body">
+							    	<h5 class="card-title">{{product.ProductName}}</h5>
+							    	<p class="card-text">{{product.Description}}</p>
+							    	<a href="#" class="btn btn-info">Ver detalle</a>
+							  	</div>
+							</div>
+	    				</div>
+						{% endfor %}
+	    			</div>
+	    		</div>
+	    	</div>
+	    </div>
+</div>
+        
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+  		<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+  		<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+  		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  		<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-slider/10.0.0/bootstrap-slider.min.js"></script>
+    </body>
+</html>
