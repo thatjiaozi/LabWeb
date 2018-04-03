@@ -1,6 +1,7 @@
 from django.contrib.admin import AdminSite
 from django.contrib import admin
 from django.contrib.auth.models import User
+from daterange_filter.filter import DateRangeFilter
 
 from .models import Producto, Categoria, Venta, Folio
 
@@ -20,7 +21,7 @@ class ProductoModelAdmin(admin.ModelAdmin):
 
 class FolioModelAdmin(admin.ModelAdmin):
     list_display = ['id', 'Fecha']
-    list_filter = ['Fecha']
+    list_filter = ['Fecha', ('Fecha', DateRangeFilter)]
     search_fields = ['id']
 
     class Meta:
