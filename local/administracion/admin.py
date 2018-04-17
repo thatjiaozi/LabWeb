@@ -34,7 +34,7 @@ class FolioModelAdmin(admin.ModelAdmin):
 
 class VentaModelAdmin(admin.ModelAdmin):
     list_display = ['id', '__str__', 'Cantidad']
-    search_fields = ['id']
+    search_fields = ['folio__id']
 
     class Meta:
         model = Venta
