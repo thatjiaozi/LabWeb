@@ -11,7 +11,6 @@ click==6.7
 cryptography==2.2.2
 cssselect==1.0.3
 cssselect2==0.2.1
-cupshelpers==1.0
 defer==1.0.6
 defusedxml==0.5.0
 distro-info==0.17
@@ -24,7 +23,6 @@ django-extensions==2.0.6
 django-invoice==0.3.2
 django-renderpdf==1.0.0
 flake8==3.5.0
-git-review==1.26.0
 gunicorn==19.7.1
 html5lib==1.0.1
 httplib2==0.9.2
