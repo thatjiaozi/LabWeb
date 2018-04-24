@@ -25,7 +25,7 @@ SECRET_KEY = '-ims4-wv3(i7ctbsj65rdk+fq=q%z54mu0((fmdcho^jyu((n='
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['comercialvalmir.herokuapp.com']
 
 
 # Application definition
