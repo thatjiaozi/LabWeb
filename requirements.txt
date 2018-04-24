@@ -65,11 +65,9 @@ setuptools-git==1.2
 setuptools-scm==1.17.0
 simplejson==3.11.1
 six==1.11.0
-system-service==0.3
 systemd-python==234
 tinycss==0.3
 tinycss2==0.6.1
-ubuntu-drivers-common==0.0.0
 ufw==0.35
 unattended-upgrades==0.1
 urllib3==1.22
