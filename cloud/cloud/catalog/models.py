@@ -9,10 +9,6 @@ class Categoria(models.Model):
 
     class Meta:
         ordering = ('Nombre',)
-    def save(self):
-        super(Categoria, self).save()
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.sendto(str.encode('hello world'), ('127.0.0.1', 2103))
 
 class Producto(models.Model):
     Nombre = models.CharField(max_length = 40)
