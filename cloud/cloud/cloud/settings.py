@@ -81,7 +81,7 @@ DB_info = urlparse(os.getenv("DATABASE_URL"))
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': DB_info.path,
+        'NAME': DB_info.path[1:],
         'USER': DB_info.username,
         'PASSWORD': DB_info.password,
         'HOST': DB_info.hostname,
