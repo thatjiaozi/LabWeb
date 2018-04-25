@@ -1,15 +1,32 @@
 from django.db import models
 
 # Create your models here.
-class Products(models.Model):
-    dummy = models.CharField(max_length = 40)
-    ProductName = models.CharField(max_length = 40)
-    Description = models.CharField(max_length = 40, default = 'none')
-    Price = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
-    Quantity = models.IntegerField(default = 0)
+class Categoria(models.Model):
+    Nombre = models.CharField(max_length = 40, blank=False, null=False)
 
-class Categories(models.Model):
-    CategoryName = models.CharField(max_length = 40)
+    def __str__(self):
+        return self.Nombre
+
+    class Meta:
+        ordering = ('Nombre',)
+    def save(self):
+        super(Categoria, self).save()
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.sendto(str.encode('hello world'), ('127.0.0.1', 2103))
+
+class Producto(models.Model):
+    Nombre = models.CharField(max_length = 40)
+    Descripcion = models.CharField(max_length = 40, default = 'none')
+    Precio = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
+    En_Existencia = models.IntegerField(default = 0)
+    Categorias = models.ManyToManyField(Categoria)
+    Codigo = models.CharField(max_length = 128)
+
+    def __str__(self):
+        return self.Nombre
+
+    class Meta:
+        ordering = ('Nombre',)
 
 class Sales(models.Model):
     TotalPayment = models.DecimalField(max_digits = 10, decimal_places = 2)
