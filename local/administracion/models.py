@@ -1,5 +1,12 @@
 from django.db import models
-import socket
+from urllib.parse import urlparse
+import os
+import random
+import time
+import psycopg2
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.db import transaction
 
 # Create your models here.
 
@@ -11,10 +18,38 @@ class Categoria(models.Model):
 
     class Meta:
         ordering = ('Nombre',)
+    def delete(self):
+        super(Categoria, self).delete()
+        self.update_db()
+
     def save(self):
         super(Categoria, self).save()
-        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        s.sendto(str.encode('hello world'), ('127.0.0.1', 2103))
+        self.update_db()
+
+    def update_db(self):
+        try:
+            database_url = urlparse(os.getenv('HEROKU_URL'))
+            conn_string = "dbname=%s user=%s host=%s password=%s" % (database_url.path[1:], database_url.username, database_url.hostname, database_url.password)
+            conn = psycopg2.connect(conn_string)
+            cur = conn.cursor()
+            cur.execute("DELETE FROM catalog_categoria")
+
+            instancias = Categoria.objects.all()
+
+            count = 0
+            for instancia in instancias:
+                cur.execute("INSERT INTO catalog_categoria VALUES(%i, '%s')" % (count, instancia.Nombre))
+                count = count+1
+
+
+            conn.commit()
+        except psycopg2.Error as e:
+            print('error connecting to heroku')
+            print(e.pgerror)
+            print(e.diag.message_detail)
+
+        
+
 
 class Producto(models.Model):
     Nombre = models.CharField(max_length = 40)
@@ -26,6 +61,45 @@ class Producto(models.Model):
 
     def __str__(self):
         return self.Nombre
+
+    def delete(self):
+        super(Producto, self).delete()
+        self.update_db()
+
+
+    def update_db(self):
+        try:
+            database_url = urlparse(os.getenv('HEROKU_URL'))
+            conn_string = "dbname=%s user=%s host=%s password=%s" % (database_url.path[1:], database_url.username, database_url.hostname, database_url.password)
+            conn = psycopg2.connect(conn_string)
+            cur = conn.cursor()
+            cur.execute("DELETE FROM catalog_producto")
+            cur.execute("DELETE FROM \"catalog_producto_Categorias\"")
+
+            instancias = Producto.objects.all()
+
+            count = 0
+            for instancia in instancias:
+                cur.execute("INSERT INTO catalog_producto VALUES(%i, '%s', '%s', %f, %i, '%s')" % (count, instancia.Nombre, instancia.Descripcion, instancia.Precio, instancia.En_Existencia, instancia.Codigo))
+                if instancia.Nombre == self.Nombre:
+                    categorias = self.Categorias
+                else :
+                    categorias = instancia.Categorias
+                
+                for categoria in categorias.all():
+                    cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s'" % (categoria.Nombre))
+                    db_rows = cur.fetchall()
+                    id_cat = db_rows[0][0]
+                    
+                    cur.execute("INSERT INTO \"catalog_producto_Categorias\" VALUES(%i, %i, %i)" %(random.randint(1, 10000) + int(time.time()), count, id_cat))
+                count = count+1
+
+
+            conn.commit()
+        except psycopg2.Error as e:
+            print('error connecting to heroku')
+            print(e.pgerror)
+            print(e.diag.message_detail)
 
     class Meta:
         ordering = ('Nombre',)
@@ -57,3 +131,43 @@ class Venta(models.Model):
 
     class Meta:
         ordering = ('id',)
+
+def on_transaction_commit(func):
+    def inner(*args, **kwargs):
+        transaction.on_commit(lambda: func(*args, **kwargs))
+    return inner
+
+
+@receiver(post_save, sender=Producto)
+@on_transaction_commit
+def producto_post_save(sender, instance, created, **kargs):
+        try:
+            database_url = urlparse(os.getenv('HEROKU_URL'))
+            conn_string = "dbname=%s user=%s host=%s password=%s" % (database_url.path[1:], database_url.username, database_url.hostname, database_url.password)
+            conn = psycopg2.connect(conn_string)
+            cur = conn.cursor()
+            cur.execute("DELETE FROM catalog_producto")
+            cur.execute("DELETE FROM \"catalog_producto_Categorias\"")
+
+            instancias = Producto.objects.all()
+
+            count = 0
+            for instancia in instancias:
+                cur.execute("INSERT INTO catalog_producto VALUES(%i, '%s', '%s', %f, %i, '%s')" % (count, instancia.Nombre, instancia.Descripcion, instancia.Precio, instancia.En_Existencia, instancia.Codigo))
+                categorias = instancia.Categorias
+                
+                for categoria in categorias.all():
+                    cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s'" % (categoria.Nombre))
+                    db_rows = cur.fetchall()
+                    id_cat = db_rows[0][0]
+                    
+                    cur.execute("INSERT INTO \"catalog_producto_Categorias\" VALUES(%i, %i, %i)" %(random.randint(1, 10000) + int(time.time()), count, id_cat))
+                count = count+1
+
+
+            conn.commit()
+        except psycopg2.Error as e:
+            print('error connecting to heroku')
+            print(e.pgerror)
+            print(e.diag.message_detail)
+
