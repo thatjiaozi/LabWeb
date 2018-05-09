@@ -76,7 +76,7 @@ WSGI_APPLICATION = 'cloud.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.0/ref/settings/#databases
 
-DB_info = urlparse(os.getenv("HEROKU_URL"))
+DB_info = urlparse(os.getenv("DATABASE_URL"))
 
 DATABASES = {
     'default': {
