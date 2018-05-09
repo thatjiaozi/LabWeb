@@ -48,12 +48,13 @@ class Categoria(models.Model):
             print(e.pgerror)
             print(e.diag.message_detail)
 
-        
+
 
 
 class Producto(models.Model):
     Nombre = models.CharField(max_length = 40)
     Descripcion = models.CharField(max_length = 40, default = 'none')
+    Imagen = models.CharField(max_length = 300, default = '')
     Precio = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
     En_Existencia = models.IntegerField(default = 0)
     Categorias = models.ManyToManyField(Categoria)
@@ -85,12 +86,12 @@ class Producto(models.Model):
                     categorias = self.Categorias
                 else :
                     categorias = instancia.Categorias
-                
+
                 for categoria in categorias.all():
                     cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s'" % (categoria.Nombre))
                     db_rows = cur.fetchall()
                     id_cat = db_rows[0][0]
-                    
+
                     cur.execute("INSERT INTO \"catalog_producto_Categorias\" VALUES(%i, %i, %i)" %(random.randint(1, 10000) + int(time.time()), count, id_cat))
                 count = count+1
 
@@ -155,12 +156,12 @@ def producto_post_save(sender, instance, created, **kargs):
             for instancia in instancias:
                 cur.execute("INSERT INTO catalog_producto VALUES(%i, '%s', '%s', %f, %i, '%s')" % (count, instancia.Nombre, instancia.Descripcion, instancia.Precio, instancia.En_Existencia, instancia.Codigo))
                 categorias = instancia.Categorias
-                
+
                 for categoria in categorias.all():
                     cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s'" % (categoria.Nombre))
                     db_rows = cur.fetchall()
                     id_cat = db_rows[0][0]
-                    
+
                     cur.execute("INSERT INTO \"catalog_producto_Categorias\" VALUES(%i, %i, %i)" %(random.randint(1, 10000) + int(time.time()), count, id_cat))
                 count = count+1
 
