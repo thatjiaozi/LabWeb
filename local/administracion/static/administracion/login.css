@@ -1,0 +1,15 @@
+.fullVSize {
+  min-height: -webkit-calc(100vh);
+  min-height: -moz-calc(100vh);
+  min-height: calc(100vh);
+  background: linear-gradient(to bottom right, #37485a, #243341);
+}
+
+.formBox {
+	border-radius: 18px;
+	box-shadow: 10px 10px 15px #1c2b3a;
+}
+
+.shadowInTitle {
+	text-shadow: 3px 3px 5px #1c2b3a;
+}
