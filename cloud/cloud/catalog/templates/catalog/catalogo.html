@@ -7,14 +7,15 @@
 
 	    		<!-- Side bar -->
 	    		<div class="col-12 col-lg-auto bg-info sideBarLeft subtleShadow pt-3">
-	    			<form>
+	    			<form action="{% url 'filterSideBar' %}" method="get">
+	    				{% csrf_token %}
 		    			<div class="row mb-2 mb-lg-4">
 		    				<div class="col text-center">
 		    					<p class="filterTitle mb-1">Categoria</p>
 								{% for category in all_categories %}
 		    					<div class="custom-control custom-checkbox text-center">
-								  	<input type="checkbox" class="custom-control-input" name="category" id="{{category.Nombre}}">
-								  	<label class="custom-control-label" for="{{category.Nombre}}">{{category.Nombre}}</label>
+								  	<input type="checkbox" class="custom-control-input" name="category" id="category{{category.id}}" value="{{category.id}}">
+								  	<label class="custom-control-label" for="category{{category.id}}">{{category.Nombre}}</label>
 								</div>
 								{% endfor %}
 		    				</div>
@@ -28,7 +29,7 @@
 		    							$
 		    						</div>
 		    						<div class="col slidecontainer">
-		    							<input type="range" min="1" max="100" value="50" class="slider" id="priceFilter">
+		    							<input type="range" min="1" max="100" value="50" class="slider" name="priceFilter" id="priceFilter">
 		    						</div>
 		    						<div class="col-auto">
 		    							$$$
@@ -56,11 +57,11 @@
 	    			<!-- Search -->
 	    			<div class="row">
 	    				<div class="col p-0">
-	    					<form>
+	    					<form action="{% url 'search' %}" method="get">
 							  	<div class="form-row align-items-center px-0 mx-0">
 							    	<div class="col px-0 mx-0">
 							      		<label class="sr-only " for="inlineFormInput">Nombre del producto... </label>
-							      		<input type="text" class="form-control m-0 py-2 mediumText perfRectangle" id="inlineFormInput" placeholder="Nombre del producto...">
+							      		<input type="text" class="form-control m-0 py-2 mediumText perfRectangle" id="inlineFormInput" name="prodName" placeholder="Nombre del producto...">
 							    	</div>
 							    	<div class="col-auto px-0">
 							      		<button type="submit" class="btn btn-primary m-0 px-5 py-2 mediumText perfRectangle">Buscar</button>
