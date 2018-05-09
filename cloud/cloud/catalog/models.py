@@ -35,4 +35,3 @@ class Sales_Products(models.Model):
     Quantity = models.IntegerField()
     IDSale = models.ForeignKey(Sales, on_delete=models.CASCADE)
     IDProduct = models.ForeignKey(Products, on_delete=models.CASCADE)
-
