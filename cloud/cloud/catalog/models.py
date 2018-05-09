@@ -24,31 +24,3 @@ class Producto(models.Model):
 
     class Meta:
         ordering = ('Nombre',)
-
-class Folio(models.Model):
-    Fecha = models.DateTimeField()
-    Productos = models.ManyToManyField(Producto, through='Venta')
-
-    @property
-    def Pago_Total(self):
-        accum = 0
-        for producto in self.Productos.all():
-            accum += Venta.objects.get(folio=self.id, producto=producto.id).Cantidad * producto.Precio
-        return accum
-
-    def __str__(self):
-        return 'Folio ' + str(self.id) + ': ' + '$' + str(self.Pago_Total) + ' MXN'
-
-    class Meta:
-        ordering = ('id',)
-
-class Venta(models.Model):
-    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
-    Cantidad = models.IntegerField()
-    folio = models.ForeignKey(Folio, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return str(self.producto) + ' - ' + str(self.folio)
-
-    class Meta:
-        ordering = ('id',)
