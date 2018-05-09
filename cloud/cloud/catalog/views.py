@@ -1,11 +1,36 @@
 from django.shortcuts import render
-from .models import Categories
-from .models import Products
-from .models import Products_Categories
+from .models import Categoria
+from .models import Producto
+
 
 # Create your views here.
 def catalog(request):
     return render(request, 'catalog/catalogo.html', {
-        'all_categories': Categories.objects.all(),
-        'all_products': Products.objects.all()
+        'all_categories': Categoria.objects.all(),
+        'all_products': Producto.objects.all()
+    })
+
+def filterSideBar(request):
+    checkedCategories = request.GET.getlist('category')
+    priceFilter = request.GET['priceFilter']
+    if checkedCategories:
+        filteredProducts = Producto.objects.filter(Categorias__in=checkedCategories).filter(Precio__gt = priceFilter)
+    else:
+        filteredProducts = Producto.objects.all().filter(Precio__gt = priceFilter)
+
+    return render(request, 'catalog/catalogo.html', {
+        'all_categories': Categoria.objects.all(),
+        'all_products': filteredProducts
+    })
+
+def search(request):
+    name = request.GET['prodName']
+    if name:
+        filteredProducts = Producto.objects.all().filter(Nombre__startswith = name)
+    else:
+        filteredProducts = Producto.objects.all()
+
+    return render(request, 'catalog/catalogo.html', {
+        'all_categories': Categoria.objects.all(),
+        'all_products': filteredProducts
     })
