@@ -52,8 +52,8 @@ class Categoria(models.Model):
 
 
 class Producto(models.Model):
-    Nombre = models.CharField(max_length = 40)
-    Descripcion = models.CharField(max_length = 40, default = 'none')
+    Nombre = models.CharField(max_length = 70)
+    Descripcion = models.CharField(max_length = 300, default = 'none')
     Imagen = models.CharField(max_length = 300, default = '')
     Precio = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
     En_Existencia = models.IntegerField(default = 0)
