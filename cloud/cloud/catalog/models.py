@@ -1,38 +1,54 @@
 from django.db import models
 
 # Create your models here.
-class Products(models.Model):
-    ProductName = models.CharField(max_length = 40)
-    Description = models.CharField(max_length = 40, default = 'none')
-    Price = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
-    Quantity = models.IntegerField(default = 0)
 
-class Categories(models.Model):
-    CategoryName = models.CharField(max_length = 40)
+class Categoria(models.Model):
+    Nombre = models.CharField(max_length = 40, blank=False, null=False)
 
-class Sales(models.Model):
-    TotalPayment = models.DecimalField(max_digits = 10, decimal_places = 2)
-    SaleDate = models.DateTimeField()
+    def __str__(self):
+        return self.Nombre
 
-class Administrators(models.Model):
-    Name = models.CharField(max_length = 40)
-    PasswordHash = models.CharField(max_length = 40)
-
-class Employees(models.Model):
-    Name = models.CharField(max_length = 40)
-    PasswordHash = models.CharField(max_length = 40)
-    IDAdmin = models.ForeignKey(Administrators, on_delete=models.CASCADE)
-
-class Products_Categories(models.Model):
     class Meta:
-        unique_together = (('IDProduct', 'IDCategory'),)
-    IDProduct = models.ForeignKey(Products, on_delete=models.CASCADE)
-    IDCategory = models.ForeignKey(Categories, on_delete=models.CASCADE)
+        ordering = ('Nombre',)
 
-class Sales_Products(models.Model):
+class Producto(models.Model):
+    Nombre = models.CharField(max_length = 40)
+    Descripcion = models.CharField(max_length = 40, default = 'none')
+    Precio = models.DecimalField(max_digits = 10, decimal_places = 2, default = 0)
+    En_Existencia = models.IntegerField(default = 0)
+    Categorias = models.ManyToManyField(Categoria)
+    Codigo = models.CharField(max_length = 128)
+
+    def __str__(self):
+        return self.Nombre
+
     class Meta:
-        unique_together = (('IDSale', 'IDProduct'),)
-    Quantity = models.IntegerField()
-    IDSale = models.ForeignKey(Sales, on_delete=models.CASCADE)
-    IDProduct = models.ForeignKey(Products, on_delete=models.CASCADE)
+        ordering = ('Nombre',)
 
+class Folio(models.Model):
+    Fecha = models.DateTimeField()
+    Productos = models.ManyToManyField(Producto, through='Venta')
+
+    @property
+    def Pago_Total(self):
+        accum = 0
+        for producto in self.Productos.all():
+            accum += Venta.objects.get(folio=self.id, producto=producto.id).Cantidad * producto.Precio
+        return accum
+
+    def __str__(self):
+        return 'Folio ' + str(self.id) + ': ' + '$' + str(self.Pago_Total) + ' MXN'
+
+    class Meta:
+        ordering = ('id',)
+
+class Venta(models.Model):
+    producto = models.ForeignKey(Producto, on_delete=models.CASCADE)
+    Cantidad = models.IntegerField()
+    folio = models.ForeignKey(Folio, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return str(self.producto) + ' - ' + str(self.folio)
+
+    class Meta:
+        ordering = ('id',)
