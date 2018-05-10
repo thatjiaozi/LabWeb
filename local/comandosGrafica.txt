@@ -1,0 +1,5 @@
+python manage.py shell
+
+from lineChart import *
+report = monthlyReport()
+report.createReport()
