@@ -208,10 +208,10 @@ class internalReport(_DrawingEditorMixin, Drawing):
 
                 # If the month is already in the dictionary, add the value, if not, create
                 # the entry for such month
-                if monthWord in dicMonthlyEarnings.keys():
-                    dicMonthlyEarnings[monthWord] = dicMonthlyEarnings[monthWord] + float(folio.Pago_Total)
+                if monthNumber in dicMonthlyEarnings.keys():
+                    dicMonthlyEarnings[monthNumber] = dicMonthlyEarnings[monthNumber] + float(folio.Pago_Total)
                 else:
-                    dicMonthlyEarnings[monthWord] = float(folio.Pago_Total)
+                    dicMonthlyEarnings[monthNumber] = float(folio.Pago_Total)
 
         # Iterate the dictionary of earnings and pass the values to a list of data to be plotted
         # Append an empty list since it is required for plotting
@@ -226,8 +226,9 @@ class internalReport(_DrawingEditorMixin, Drawing):
 
         # For each key add the earning and the month
         for key in keylist:
+            monthWord = self.numberToWordMonth(key)
             dataEarnings[0].append(dicMonthlyEarnings[key])
-            dataMonths.append(str(key))
+            dataMonths.append(str(monthWord))
 
         # Update values of data and categoryNames
         # Save the document in PDF Format
@@ -242,18 +243,18 @@ class internalReport(_DrawingEditorMixin, Drawing):
     # Method that receives a month in numbers and return a string with the name of the month
     def numberToWordMonth(self, monthNumber):
         monthsDictionary = dict()
-        monthsDictionary[1] = 'Enero'
-        monthsDictionary[2] = 'Febrero'
-        monthsDictionary[3] = 'Marzo'
-        monthsDictionary[4] = 'Abril'
-        monthsDictionary[5] = 'Mayo'
-        monthsDictionary[6] = 'Junio'
-        monthsDictionary[7] = 'Julio'
-        monthsDictionary[8] = 'Agosto'
-        monthsDictionary[9] = 'Septiembre'
-        monthsDictionary[10] = 'Octubre'
-        monthsDictionary[11] = 'Noviembre'
-        monthsDictionary[12] = 'Diciembre'
+        monthsDictionary[1] = 'Ene'
+        monthsDictionary[2] = 'Feb'
+        monthsDictionary[3] = 'Mar'
+        monthsDictionary[4] = 'Abr'
+        monthsDictionary[5] = 'May'
+        monthsDictionary[6] = 'Jun'
+        monthsDictionary[7] = 'Jul'
+        monthsDictionary[8] = 'Ago'
+        monthsDictionary[9] = 'Sep'
+        monthsDictionary[10] = 'Oct'
+        monthsDictionary[11] = 'Nov'
+        monthsDictionary[12] = 'Dic'
         try:
             return monthsDictionary[monthNumber]
         except:
