@@ -3,8 +3,7 @@ from django.contrib import admin
 from django.contrib.auth.models import User
 from django.contrib.auth import models
 from daterange_filter.filter import DateRangeFilter
-from .models import Producto, Categoria, Venta, Folio
-
+from .models import Producto, Categoria, Venta, Folio, Reporte
 
 class CustomAdminSite(AdminSite):
     site_header = 'Comercial Valmir'
@@ -24,13 +23,29 @@ class ProductoModelAdmin(admin.ModelAdmin):
 
 
 class FolioModelAdmin(admin.ModelAdmin):
-    list_display = ['id', 'Fecha']
+    list_display = ['id', 'Fecha', 'TicketFolio']
     list_filter = ['Fecha', ('Fecha', DateRangeFilter)]
     search_fields = ['id']
+
+    def show_firm_url(self, obj):
+        return format_html("<a href='{url}'>{url}</a>", url=obj.TicketFolio)
+
+    show_firm_url.short_description = "Firm URL"
 
     class Meta:
         model = Folio
 
+class ReporteModelAdmin(admin.ModelAdmin):
+    list_display = ['id', 'year', 'ReporteLink']
+    search_fields = ['id']
+
+    def show_firm_url(self, obj):
+        return format_html("<a href='{url}'>{url}</a>", url=obj.ReporteLink)
+
+    show_firm_url.short_description = "Firm URL"
+
+    class Meta:
+        model = Folio
 
 class VentaModelAdmin(admin.ModelAdmin):
     list_display = ['id', '__str__', 'Cantidad']
@@ -68,10 +83,13 @@ class UserModelAdmin(admin.ModelAdmin):
     class Meta:
         model = User
 
-
+class TickeAdmin(admin.ModelAdmin):
+    change_list_template = 'change_list.html'
+ 
 admin_site = CustomAdminSite(name='admin')
 admin_site.register(User, UserModelAdmin)
 admin_site.register(Producto, ProductoModelAdmin)
 admin_site.register(Categoria, CategoriaModelAdmin)
 admin_site.register(Venta, VentaModelAdmin)
 admin_site.register(Folio, FolioModelAdmin)
+admin_site.register(Reporte, ReporteModelAdmin)

@@ -7,6 +7,7 @@ import psycopg2
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.db import transaction
+from django.utils.html import format_html
 
 # Create your models here.
 
@@ -110,6 +111,11 @@ class Folio(models.Model):
     Productos = models.ManyToManyField(Producto, through='Venta')
 
     @property
+    def TicketFolio(self):
+       link = "http://127.0.0.1:8000/ticket/" + str(self.id) + "/"
+       return link    
+
+    @property
     def Pago_Total(self):
         accum = 0
         for producto in self.Productos.all():
@@ -132,6 +138,15 @@ class Venta(models.Model):
 
     class Meta:
         ordering = ('id',)
+
+class Reporte(models.Model):
+    year = models.IntegerField()
+    
+    @property
+    def ReporteLink(self):
+       link = "http://127.0.0.1:8000/reporte/" + str(self.year) + "/"
+       return link    
+
 
 def on_transaction_commit(func):
     def inner(*args, **kwargs):
@@ -171,4 +186,3 @@ def producto_post_save(sender, instance, created, **kargs):
             print('error connecting to heroku')
             print(e.pgerror)
             print(e.diag.message_detail)
-
