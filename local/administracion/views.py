@@ -12,6 +12,7 @@ from django.db.models.functions import ExtractMonth
 from django.db import models
 
 # Reportlab Imports
+from rlextra.graphics.quickchart import QuickChart
 from reportlab.pdfgen import canvas
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.enums import TA_JUSTIFY,TA_LEFT,TA_CENTER,TA_RIGHT
@@ -28,7 +29,14 @@ from reportlab.pdfbase.pdfmetrics import stringWidth
 from reportlab.lib.utils import getStringIO
 from reportlab import rl_config
 from reportlab.graphics import *
-from rlextra.graphics.quickchart import QuickChart
+from reportlab.lib.colors import purple, PCMYKColor, black, pink, green, blue
+from reportlab.graphics.charts.lineplots import LinePlot
+from reportlab.graphics.charts.legends import LineLegend
+from reportlab.graphics.shapes import Drawing, _DrawingEditorMixin
+from reportlab.lib.validators import Auto
+from reportlab.graphics.widgets.markers import makeMarker
+from reportlab.pdfbase.pdfmetrics import stringWidth, EmbeddedType1Face, registerTypeFace, Font, registerFont
+from reportlab.graphics.charts.axes import XValueAxis, YValueAxis, AdjYValueAxis, NormalDateXValueAxis
 
 # Load settings file located in the administracion subfolder
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.py")
@@ -192,16 +200,18 @@ class internalReport(_DrawingEditorMixin, Drawing):
         # Iterate each folio and for each one retrieve the month of purchase, this will
         # be added in the dictionary of earning per month.
         for folio in objFolios:
-            # Retrive the month number and convert it to string
-            monthNumber = folio.Fecha.month
-            monthWord = self.numberToWordMonth(monthNumber)
 
-            # If the month is already in the dictionary, add the value, if not, create
-            # the entry for such month
-            if monthWord in dicMonthlyEarnings.keys():
-                dicMonthlyEarnings[monthWord] = dicMonthlyEarnings[monthWord] + float(folio.Pago_Total)
-            else:
-                dicMonthlyEarnings[monthWord] = float(folio.Pago_Total)
+            if folio.Fecha.year == year:
+                # Retrive the month number and convert it to string
+                monthNumber = folio.Fecha.month
+                monthWord = self.numberToWordMonth(monthNumber)
+
+                # If the month is already in the dictionary, add the value, if not, create
+                # the entry for such month
+                if monthWord in dicMonthlyEarnings.keys():
+                    dicMonthlyEarnings[monthWord] = dicMonthlyEarnings[monthWord] + float(folio.Pago_Total)
+                else:
+                    dicMonthlyEarnings[monthWord] = float(folio.Pago_Total)
 
         # Iterate the dictionary of earnings and pass the values to a list of data to be plotted
         # Append an empty list since it is required for plotting
