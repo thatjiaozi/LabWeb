@@ -80,7 +80,7 @@
 	    						{% if not product.Imagen %}
 	    							<img class="card-img-top subtleShadow" src="https://vignette.wikia.nocookie.net/relics-of-hyrule/images/b/bc/TriforceFull.jpg/revision/latest?cb=20150903015527" alt="Imágen no disponible">
 	    						{% else %}
-							  		<img class="card-img-top subtleShadow" src="{{product.Imagen}}" alt="Imágen de {{product.Nombre}}">
+							  		<img class="card-img-top subtleShadow" src="{{product.Imagen}}" alt="Imágen de {{product.Nombre}}" width=256 height=256>
 							  	{% endif %}
 							  	<div class="card-body">
 							    	<h5 class="card-title">{{product.Nombre}}</h5>
