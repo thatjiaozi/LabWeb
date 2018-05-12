@@ -65,6 +65,9 @@ def generateTicket(request):
 	# Inicializa altura para empezar a escribir
 	high = 650
 
+
+
+
 	# Se declaran las ventas
 	ventas = [
 		{'id' : '1', 'name' : 'Tupper', 'price' : '$130', 'quantity' : '3'},

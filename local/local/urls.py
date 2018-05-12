@@ -19,6 +19,6 @@ from administracion import views
 
 urlpatterns = [
     path('', admin_site.urls),
-    re_path(r'^ticket/$', views.ticket, name='ticket'),
-    re_path(r'^reporte/$', views.reporte, name='reporte')
+    path('ticket/<int:idTicket>/', views.ticket),
+    path('reporte/<int:reportYear>/', views.report)
 ]

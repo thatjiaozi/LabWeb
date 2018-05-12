@@ -1,15 +1,18 @@
-import os
+import os, sys, django
+from io import BytesIO
+
+# Django imports
 from django.urls import path
 from django.shortcuts import render
-
-# Create your views here.
 from django.contrib.auth import views as auth_views
-
-
-from io import BytesIO
-from reportlab.pdfgen import canvas
 from django.http import HttpResponse
+from django.db.models.functions import Cast
+from django.db.models.fields import DateField
+from django.db.models.functions import ExtractMonth
+from django.db import models
 
+# Reportlab Imports
+from reportlab.pdfgen import canvas
 from reportlab.lib.styles import getSampleStyleSheet
 from reportlab.lib.enums import TA_JUSTIFY,TA_LEFT,TA_CENTER,TA_RIGHT
 from reportlab.lib.pagesizes import A4
@@ -17,13 +20,20 @@ from reportlab.lib.units import cm
 from reportlab.lib.styles import ParagraphStyle
 from reportlab.lib import colors
 from reportlab.platypus.tables import Table
-from reportlab.platypus import (
-    BaseDocTemplate, 
-    PageTemplate, 
-    Frame, 
-    Paragraph,
-    TableStyle
-)
+from reportlab.platypus import (BaseDocTemplate, PageTemplate, Frame, Paragraph, TableStyle)
+from reportlab.graphics.shapes import Drawing, _DrawingEditorMixin
+from reportlab.graphics.shapes import *
+from reportlab.pdfgen.canvas import Canvas
+from reportlab.pdfbase.pdfmetrics import stringWidth
+from reportlab.lib.utils import getStringIO
+from reportlab import rl_config
+from reportlab.graphics import *
+from rlextra.graphics.quickchart import QuickChart
+
+# Load settings file located in the administracion subfolder
+os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.py")
+django.setup()
+from administracion.models import *
 
 path(
     'password_reset/',
@@ -46,114 +56,119 @@ path(
     name='password_reset_complete',
 ),
 
-def ticket(request):
-    # Create the HttpResponse object with the appropriate PDF headers.
-    response = HttpResponse(content_type='application/pdf')
-    response['Content-Disposition'] = 'attachment; filename="ticketVenta.pdf"'
+def createPDFOnBrowser(path):
+    with open(path, "rb") as f:
+        data = f.read()
+    return HttpResponse(data, content_type='application/pdf')
 
-    # Create the PDF object, using the response object as its "file."
-    canvasResponse = canvas.Canvas(response)
+def ticket(request, idTicket):
+    generatedTicket = internalTicket(idTicket)
+    return createPDFOnBrowser('internalTicket000.pdf')
 
-    # Header
-    canvasResponse.setLineWidth(.3)
-    canvasResponse.setFont('Helvetica', 22)
-    canvasResponse.drawString(30, 750, 'Comercial')
+def report(request, reportYear):
+    generatedReport = internalReport(reportYear)
+    return createPDFOnBrowser('internalReport000.pdf')
 
-    canvasResponse.setFont('Helvetica', 22)
-    canvasResponse.drawString(30, 730, 'Valmir')
+class internalTicket():
+    def __init__(self, idTicket):
 
-    canvasResponse.setFont('Helvetica-Bold', 12)
-    canvasResponse.drawString(480, 750, '03/04/2018')
+        # Retrive object products from models
+        objProductos = Producto.objects.all()
+        objCategorias = Categoria.objects.all()
+        objFolios = Folio.objects.all()
+        objVentas = Venta.objects.all()
 
-    # Start X, Start Y, End X, End Y
-    canvasResponse.line(460, 747, 560, 747)
+        # Retrieve values of idTicket
+        folioSelecto = Folio.objects.get(id = idTicket)
 
-    # Table header
-    styles = getSampleStyleSheet()
-    stylesHeader = styles['Normal']
-    stylesHeader.alignment = TA_CENTER
-    stylesHeader.fontsize = 10
+        # Create the PDF object, using the response object as its "file."
+        canvasResponse = canvas.Canvas("internalTicket000.pdf", pagesize=A4)
 
-    # Informacion del ticket
-    productID = Paragraph('''ID''', stylesHeader)
-    productName = Paragraph('''Nombre''', stylesHeader)
-    productPrice = Paragraph('''Precio''', stylesHeader)
-    quantity = Paragraph('''Cantidad''', stylesHeader) 
+        # Header
+        canvasResponse.setLineWidth(.3)
 
-    # Se crea la lista de listas con la que se representara el ticket
-    ticket = []
-    ticket.append([productID, productName, productPrice, quantity])
+        canvasResponse.setFont('Helvetica', 22)
+        canvasResponse.drawString(30, 750, 'Comercial')
+        canvasResponse.setFont('Helvetica', 22)
+        canvasResponse.drawString(30, 730, 'Valmir')
+        canvasResponse.setFont('Helvetica-Bold', 12)
 
-    styles = getSampleStyleSheet()
-    stylesTable = styles['BodyText']
-    stylesTable.alignment = TA_CENTER
-    stylesTable = fontsize = 7
+        fecha = str(folioSelecto.Fecha.day) + '/' + str(folioSelecto.Fecha.month) + '/' + str(folioSelecto.Fecha.year) 
+        canvasResponse.drawString(480, 750, fecha)
 
-    # Inicializa altura para empezar a escribir
-    high = 650
+        # Start X, Start Y, End X, End Y
+        canvasResponse.line(460, 747, 560, 747)
 
-    # Se declaran las ventas
-    ventas = [
-        {'id' : '1', 'name' : 'Tupper', 'price' : '$130', 'quantity' : '3'},
-        {'id' : '2', 'name' : 'Cuchara', 'price' : '$10', 'quantity' : '2'},
-        {'id' : '2', 'name' : 'Vaso', 'price' : '$40', 'quantity' : '4'},
-    ]
+        # Table header
+        styles = getSampleStyleSheet()
+        stylesHeader = styles['Normal']
+        stylesHeader.alignment = TA_CENTER
+        stylesHeader.fontsize = 10
 
-    # Se agrega la informacion de las ventas a la lista
-    for venta in ventas:
-        this_venta = [venta['id'], venta['name'], venta['price'], venta['quantity']]
-        ticket.append(this_venta)
-        high = high - 18
+        # Informacion del ticket
+        productID = Paragraph('''ID''', stylesHeader)
+        productName = Paragraph('''Nombre''', stylesHeader)
+        productPrice = Paragraph('''Precio''', stylesHeader)
+        quantity = Paragraph('''Cantidad''', stylesHeader) 
 
-    #  Se dibuja el contorno de la tabla
-    width, heigth = A4
-    table = Table(ticket, colWidths = [1.9 * cm, 9.5 * cm, 1.9 * cm, 1.9 * cm])
-    table.setStyle(TableStyle([
-        ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
-        ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+        # Se crea la lista de listas con la que se representara el ticket
+        ventaTicket = []
+        ventaTicket.append([productID, productName, productPrice, quantity])
 
-    table.wrapOn(canvasResponse, width, heigth)
-    table.drawOn(canvasResponse, 30, high)
-    canvasResponse.showPage()
+        styles = getSampleStyleSheet()
+        stylesTable = styles['BodyText']
+        stylesTable.alignment = TA_CENTER
+        stylesTable = fontsize = 7
 
-    # Save PDF
-    canvasResponse.save()
+        # Inicializa altura para empezar a escribir
+        high = 650
 
-    return response
+        total = 0
 
-# General imports from Django
-import os, sys, django
-from django.db.models.functions import Cast
-from django.db.models.fields import DateField
-from django.db.models.functions import ExtractMonth
-from django.db import models
+        for prodInd in folioSelecto.Productos.all():
+            objVentaEscogida = Venta.objects.get(folio=folioSelecto.id, producto=prodInd.id)
 
-# ReportLabs imports
-from rlextra.graphics.quickchart import QuickChart
-from reportlab.graphics.shapes import Drawing, _DrawingEditorMixin
+            dictVentaIndividual = dict()
+            dictVentaIndividual['id'] = prodInd.id
+            dictVentaIndividual['name'] = prodInd.Nombre
+            dictVentaIndividual['price'] = prodInd.Precio
+            dictVentaIndividual['quantity'] = objVentaEscogida.Cantidad
 
-from reportlab.graphics.shapes import *
-from reportlab.pdfgen.canvas import Canvas
-from reportlab.pdfbase.pdfmetrics import stringWidth
-from reportlab.lib.utils import getStringIO
-from reportlab import rl_config
+            total += float(prodInd.Precio * objVentaEscogida.Cantidad)
 
-from reportlab.graphics import *
+            # Se agrega la informacion de las ventas a la lista
+            this_venta = [dictVentaIndividual['id'], dictVentaIndividual['name'], dictVentaIndividual['price'], dictVentaIndividual['quantity']]
+            ventaTicket.append(this_venta)
+            high = high - 18
 
-# Load settings file located in the administracion subfolder
-os.environ.setdefault("DJANGO_SETTINGS_MODULE", "settings.py")
-django.setup()
-from administracion.models import *
 
-class monthlyReport(_DrawingEditorMixin, Drawing):
-    def __init__(self, width = 800, height = 400, Year=2018, nameOfFile = "Reporte_Ventas_", *args, **kw):
+        # Add total
+        ventaTicket.append(["", "","", ""])
+        ventaTicket.append(["", "","Total", str(total)])
+
+        #  Se dibuja el contorno de la tabla
+        width, heigth = A4
+        table = Table(ventaTicket, colWidths = [1.9 * cm, 9.5 * cm, 1.9 * cm, 1.9 * cm])
+        table.setStyle(TableStyle([
+            ('INNERGRID', (0, 0), (-1, -1), 0.25, colors.black),
+            ('BOX', (0, 0), (-1, -1), 0.25, colors.black), ]))
+
+        table.wrapOn(canvasResponse, width, heigth)
+        table.drawOn(canvasResponse, 30, high)
+        canvasResponse.showPage()
+
+        # Save PDF
+        canvasResponse.save()
+
+class internalReport(_DrawingEditorMixin, Drawing):
+    def __init__(self, year=2018, width = 800, height = 400, *args, **kw):
         # Initialize chart
-        Drawing.__init__(self,width,height,*args,**kw)
+        Drawing.__init__(self, width, height,*args,**kw)
 
         self._add(self, QuickChart(), name = 'chart', validate = None, desc = None)
 
         # Properties of chart
-        self.chart.titleText = ('Ventas totales del ' + str(Year))
+        self.chart.titleText = ('Ventas totales del ' + str(year))
         self.chart.chartType = 'linechart_markers'
         self.chart.width = width
         self.chart.height = height
@@ -164,10 +179,6 @@ class monthlyReport(_DrawingEditorMixin, Drawing):
         # Data and category names, to be filled in the report section
         self.chart.data = [[]]
         self.chart.categoryNames = []
-
-
-        # Name of  file
-        nameOfFile = (nameOfFile + str(Year) + ".pdf")
 
         # Dictionary that maps a month (key) to a sum of earning (value) in such month
         dicMonthlyEarnings = dict()
@@ -215,6 +226,7 @@ class monthlyReport(_DrawingEditorMixin, Drawing):
         self.height = height
         self.width = width
 
+        # Save PDF in disk
         self.save(formats = ['pdf'], outDir = '.', fnRoot = None)
 
     # Method that receives a month in numbers and return a string with the name of the month
@@ -236,16 +248,3 @@ class monthlyReport(_DrawingEditorMixin, Drawing):
             return monthsDictionary[monthNumber]
         except:
             print("Month not valid")
-
-def printTestPdf(request):
-  return printPdf('monthlyReport000.pdf')
-
-def printPdf(path):
-    with open(path, "rb") as f:
-        data = f.read()
-    return HttpResponse(data, content_type='application/pdf')
-
-def reporte(request):
-
-
-    return printTestPdf(request)
