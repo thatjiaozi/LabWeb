@@ -17,7 +17,8 @@ class Categoria(models.Model):
         return self.Nombre
 
     class Meta:
-        ordering = ('Nombre',)
+        ordering = ('id',)
+
     def delete(self):
         super(Categoria, self).delete()
         self.update_db()
@@ -34,7 +35,7 @@ class Categoria(models.Model):
             cur = conn.cursor()
             cur.execute("DELETE FROM catalog_categoria")
 
-            instancias = Categoria.objects.all()
+            instancias = Categoria.objects.all().order_by('id')
 
             count = 0
             for instancia in instancias:
@@ -47,9 +48,6 @@ class Categoria(models.Model):
             print('error connecting to heroku')
             print(e.pgerror)
             print(e.diag.message_detail)
-
-
-
 
 class Producto(models.Model):
     Nombre = models.CharField(max_length = 70)
@@ -88,7 +86,7 @@ class Producto(models.Model):
                     categorias = instancia.Categorias
 
                 for categoria in categorias.all():
-                    cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s'" % (categoria.Nombre))
+                    cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s' order by id" % (categoria.Nombre))
                     db_rows = cur.fetchall()
                     id_cat = db_rows[0][0]
 
@@ -103,7 +101,7 @@ class Producto(models.Model):
             print(e.diag.message_detail)
 
     class Meta:
-        ordering = ('Nombre',)
+        ordering = ('id',)
 
 class Folio(models.Model):
     Fecha = models.DateTimeField()
@@ -158,7 +156,7 @@ def producto_post_save(sender, instance, created, **kargs):
                 categorias = instancia.Categorias
 
                 for categoria in categorias.all():
-                    cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s'" % (categoria.Nombre))
+                    cur.execute("SELECT * from catalog_categoria where \"Nombre\" = '%s' order by id" % (categoria.Nombre))
                     db_rows = cur.fetchall()
                     id_cat = db_rows[0][0]
 

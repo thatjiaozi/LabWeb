@@ -45,6 +45,7 @@ admin_site = CustomAdminSite(name='admin')
 
 class CategoriaModelAdmin(admin.ModelAdmin):
     search_fields = ['Nombre']
+    list_display = ['id', 'Nombre']
 
     class Meta:
         model = Categoria
