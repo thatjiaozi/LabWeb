@@ -12,7 +12,6 @@ def catalog(request):
 
 def filterSideBar(request):
     checkedCategories = request.GET.getlist('category')
-    print(checkedCategories)
     priceFilter = request.GET['priceFilter']
     if checkedCategories:
         filteredProducts = Producto.objects.filter(Categorias__in=checkedCategories).filter(Precio__gt = priceFilter)
