@@ -29,7 +29,7 @@
 		    							$
 		    						</div>
 		    						<div class="col slidecontainer">
-		    							<input type="range" min="1" max="100" value="50" class="slider" name="priceFilter" id="priceFilter">
+		    							<input type="range" min="0" max="100" value="0" class="slider" name="priceFilter" id="priceFilter">
 		    						</div>
 		    						<div class="col-auto">
 		    							$$$
@@ -84,7 +84,7 @@
 							  	{% endif %}
 							  	<div class="card-body">
 							    	<h5 class="card-title">{{product.Nombre}}</h5>
-							    	<p class="card-text">{{product.Descripcion}}</p>
+							    	<p class="card-text">{{product.Precio}}</p>
 							    	<!-- Button trigger modal -->
 									<button type="button" class="btn btn-primary" data-toggle="modal" data-target="#product{{product.id}}">
 									  Ver detalle
